@@ -203,4 +203,6 @@ const ReduxVisualizer: React.FC<ReduxVisualizerProps> = ({ isOpen, onClose, over
   );
 };
 
+export { ReduxVisualizer };
 export default ReduxVisualizer;
+export type { ReduxVisualizerProps };

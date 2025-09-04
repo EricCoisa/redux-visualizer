@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState: string[] = ['São Paulo', 'Rio de Janeiro', 'Curitiba'];
+export type CitiesState = string[];
+const initialState: CitiesState = ['São Paulo', 'Rio de Janeiro', 'Curitiba'];
 
 const citiesSlice = createSlice({
   name: 'cities',

@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState: number = 42;
+export type ScoreState = number;
+const initialState: ScoreState = 42;
 
 const scoreSlice = createSlice({
   name: 'score',
