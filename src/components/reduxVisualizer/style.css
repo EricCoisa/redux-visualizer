@@ -1,0 +1,65 @@
+.rv-modal-overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.rv-modal-content {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  max-width: 700px;
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+
+.rv-modal-header {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  cursor: grab;
+  background: #f5f5f5;
+  border-bottom: 1px solid #eee;
+  padding: 0 12px;
+  user-select: none;
+}
+
+.rv-modal-close {
+  margin-right: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+}
+
+.rv-modal-title {
+  font-weight: bold;
+}
+
+.rv-modal-header-spacer {
+  flex: 1;
+}
+
+.rv-modal-header-drag {
+  color: #aaa;
+  font-size: 14px;
+}
+
+.rv-modal-body {
+  flex: 1;
+  min-height: 0;
+  max-height: calc(100% - 40px);
+  overflow: auto;
+  padding: 16px;
+  background: #fff;
+}

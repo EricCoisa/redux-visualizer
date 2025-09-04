@@ -1,0 +1,52 @@
+{
+  "name": "redux-visualizer",
+  "version": "1.0.0",
+  "description": "Redux Visualizer is a modal component that allows you to inspect, expand, and edit Redux states in real-time. It displays your state as an interactive tree structure and supports editing values of any type",
+  "private": true,
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EricCoisa/redux-visualizer.git"
+  },
+  "keywords": [
+    "redux",
+    "visualization",
+    "modal",
+    "state",
+    "inspector",
+    "editor"
+  ],
+  "author": "Eric Vitor",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/EricCoisa/redux-visualizer/issues"
+  },
+  "homepage": "https://github.com/EricCoisa/redux-visualizer#readme",
+  "dependencies": {
+    "@reduxjs/toolkit": "^2.9.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-redux": "^9.2.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react": "^5.0.0",
+    "eslint": "^9.33.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.3.0",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.39.1",
+    "vite": "^7.1.2"
+  }
+}
