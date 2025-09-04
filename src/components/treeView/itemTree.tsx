@@ -1,6 +1,7 @@
 
 
 import React from 'react';
+import './style.css';
 
 export interface ItemTreeProps {
   name: string;
@@ -8,22 +9,25 @@ export interface ItemTreeProps {
   type: string;
   expanded?: boolean;
   onToggle?: () => void;
+  onEdit?: () => void;
+  badge?: React.ReactNode;
 }
 
-const ItemTree: React.FC<ItemTreeProps> = ({ name, value, type, expanded, onToggle }) => {
+const ItemTree: React.FC<ItemTreeProps> = ({ name, value, type, expanded, onToggle, onEdit, badge }) => {
   return (
-    <div className="rv-item-tree-view" style={{ marginLeft: 16 }}>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+    <div className="rv-item-tree-view">
+      <div className="rv-item-tree-content">
         {onToggle && (
-          <button onClick={onToggle} style={{ marginRight: 4 }}>
+          <button className="rv-item-tree-toggle" onClick={onToggle}>
             {expanded ? '-' : '+'}
           </button>
         )}
-        <span style={{ fontWeight: 'bold' }}>{name}</span>
-        <span style={{ marginLeft: 8, color: '#888' }}>({type})</span>
-        <button style={{ marginLeft: 8 }} disabled title="Editar (em breve)">✏️</button>
+        <span className="rv-item-tree-name">{name}</span>
+        <span className="rv-item-tree-type">({type})</span>
+        {badge}
+        <button className="rv-item-tree-edit-btn" onClick={onEdit} title={`Editar ${type}`}>✏️</button>
         {!onToggle && (
-          <span style={{ marginLeft: 24 }}>{JSON.stringify(value)}</span>
+          <span className="rv-item-tree-value">{JSON.stringify(value)}</span>
         )}
       </div>
     </div>

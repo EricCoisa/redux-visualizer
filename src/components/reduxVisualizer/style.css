@@ -63,3 +63,64 @@
   padding: 16px;
   background: #fff;
 }
+
+/* Additional modal styles for Edit Value Modal */
+.rv-edit-modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1000;
+}
+
+.rv-edit-modal-content {
+	background: white;
+	border-radius: 8px;
+	padding: 24px;
+	max-width: 80%;
+	max-height: 80%;
+	overflow: auto;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+	min-width: 400px;
+}
+
+.rv-edit-modal-title {
+	margin: 0 0 16px 0;
+	font-size: 18px;
+	color: #333;
+}
+
+.rv-edit-modal-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px;
+	margin-top: 16px;
+}
+
+.rv-edit-modal-btn {
+	padding: 8px 16px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background: #f8f8f8;
+	cursor: pointer;
+	transition: background-color 0.2s;
+}
+
+.rv-edit-modal-btn:hover {
+	background: #e8e8e8;
+}
+
+.rv-edit-modal-btn-primary {
+	background: #007acc;
+	color: white;
+	border-color: #007acc;
+}
+
+.rv-edit-modal-btn-primary:hover {
+	background: #006bb3;
+}

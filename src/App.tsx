@@ -1,12 +1,15 @@
 import { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/redux-visualizer.svg'
 import './App.css'
 import ReduxVisualizer from './components/reduxVisualizer/reduxVisualizer'
 
+
 function App() {
-  const [count, setCount] = useState(0)
-  const [r, setR] = useState(false)
+  const [r, setR] = useState(false);
+  const count = useSelector((state: any) => state.counter.value ?? state.counter);
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -20,7 +23,7 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
+        <button onClick={() => dispatch({ type: 'counter/increment' })}>
           count is {count}
         </button>
         <p>
@@ -35,7 +38,7 @@ function App() {
       </button>
       <ReduxVisualizer isOpen={r} onClose={() => setR(false)} />
     </>
-  )
+  );
 }
 
 export default App

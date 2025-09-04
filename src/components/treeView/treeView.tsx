@@ -1,76 +1,111 @@
-
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ItemTree from './itemTree';
-import { useSelector } from 'react-redux';
-
-function getType(value: unknown): string {
-  if (Array.isArray(value)) return 'array';
-  if (value === null) return 'null';
-  return typeof value;
+import TreeWrapper from './TreeWrapper';
+import EditValueModal from './editValueModal';
+import { useSelector, useDispatch } from 'react-redux';
+import { setEntireState } from '../../store/setEntireState';
+import './style.css';
+function updateValueAtPath(obj: any, path: (string|number)[], newValue: any): any {
+  if (!path || path.length === 0) return newValue;
+  const [head, ...rest] = path;
+  const copy = Array.isArray(obj) ? [...obj] : { ...obj };
+  copy[head] = rest.length === 0 ? newValue : updateValueAtPath(copy[head], rest, newValue);
+  return copy;
 }
 
-const isExpandable = (value: unknown): value is object => typeof value === 'object' && value !== null;
+const TreeView: React.FC = () => {
+  const reduxState = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const [localState, setLocalState] = useState<any>(reduxState);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editValue, setEditValue] = useState<any>('');
+  const [editPath, setEditPath] = useState<(string|number)[] | null>(null);
 
-function TreeView() {
-  const state = useSelector((state) => state);
-  const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({});
+  useEffect(() => {
+    setLocalState(reduxState);
+  }, [reduxState]);
 
-  const handleToggle = (key: string) => {
-    setExpanded((prev) => ({ ...prev, [key]: !prev[key] }));
+  const handleEditRequest = (value: unknown, path: (string|number)[]) => {
+    console.log('handleEditRequest', { value, path });
+    setEditValue(value);
+    setEditPath(path);
+    setIsModalOpen(true);
   };
 
-  const renderChildren = (value: unknown, path: (string|number)[] = []) => {
-    if (Array.isArray(value)) {
-      return value.map((item, idx) => {
-        const key = [...path, idx].join('.');
-        const type = getType(item);
-        const canExpand = isExpandable(item);
-        return (
-          <React.Fragment key={key}>
-            <ItemTree
-              name={String(idx)}
-              value={item}
-              type={type}
-              expanded={!!expanded[key]}
-              onToggle={canExpand ? () => handleToggle(key) : undefined}
-            />
-            {canExpand && expanded[key] && (
-              <div>{renderChildren(item, [...path, idx])}</div>
-            )}
-          </React.Fragment>
-        );
-      });
-    } else if (isExpandable(value)) {
-      return Object.entries(value as object).map(([k, v]) => {
-        const key = [...path, k].join('.');
-        const type = getType(v);
-        const canExpand = isExpandable(v);
-        return (
-          <React.Fragment key={key}>
-            <ItemTree
-              name={k}
-              value={v}
-              type={type}
-              expanded={!!expanded[key]}
-              onToggle={canExpand ? () => handleToggle(key) : undefined}
-            />
-            {canExpand && expanded[key] && (
-              <div>{renderChildren(v, [...path, k])}</div>
-            )}
-          </React.Fragment>
-        );
-      });
-    } else {
-      return null;
+  const handleSave = (newValue: any) => {
+    if (editPath) {
+      // Atualiza o estado global do Redux
+      const updatedState = updateValueAtPath(reduxState, editPath, newValue);
+      dispatch(setEntireState(updatedState));
     }
+    setIsModalOpen(false);
+    setEditPath(null);
+  };
+
+  const renderLeaf = ({ value, path, name, type, expanded: isExpanded, onToggle }: any) => {
+    const canExpand = type === 'array' || type === 'object';
+    return (
+      <ItemTree
+        name={name}
+        value={value}
+        type={type}
+        expanded={canExpand ? isExpanded : undefined}
+        onToggle={canExpand ? onToggle : undefined}
+        onEdit={() => handleEditRequest(value, path)}
+      />
+    );
   };
 
   return (
     <div className="rv-tree-view">
-      {renderChildren(state)}
+      <div className="rv-state-header">
+        <span className="rv-badge rv-badge-root">Root</span>
+        <button
+          className="rv-state-edit-btn"
+          title="Editar estado"
+          onClick={() => handleEditRequest(localState, [])}
+        >
+          <span role="img" aria-label="editar">✏️</span>
+        </button>
+      </div>
+      <TreeWrapper
+        value={reduxState}
+        path={[]}
+        renderLeaf={({ value, path, name, type, expanded: isExpanded, onToggle }) => {
+          const canExpand = type === 'array' || type === 'object';
+          // Badge logic
+          let badge = null;
+          if (path.length === 1) {
+            badge = <span className="rv-badge rv-badge-reducer">Reducer</span>;
+          } else if (path.length > 1) {
+            badge = <span className="rv-badge rv-badge-state">State</span>;
+          }
+          return (
+            <ItemTree
+              name={String(name)}
+              value={value}
+              type={type}
+              expanded={canExpand ? isExpanded : undefined}
+              onToggle={canExpand ? onToggle : undefined}
+              onEdit={() => handleEditRequest(value, path)}
+              badge={badge}
+            />
+          );
+        }}
+        expanded={true}
+        style={{}}
+        iconExpand={<span style={{ fontWeight: 'bold' }}>-</span>}
+        iconCollapse={<span style={{ fontWeight: 'bold' }}>+</span>}
+        onEdit={handleEditRequest}
+      />
+      <EditValueModal
+        isOpen={isModalOpen}
+        initialValue={editValue}
+        onSave={handleSave}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
-}
+};
 
 export default TreeView;
