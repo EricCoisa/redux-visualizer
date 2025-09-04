@@ -30,6 +30,11 @@
     "url": "https://github.com/EricCoisa/redux-visualizer/issues"
   },
   "homepage": "https://github.com/EricCoisa/redux-visualizer#readme",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "dependencies": {
   },
   "peerDependencies": {

@@ -1,0 +1,5 @@
+src/
+public/
+tsconfig*.json
+vite.config.ts
+.eslint*
