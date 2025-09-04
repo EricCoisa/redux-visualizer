@@ -2,13 +2,13 @@
   "name": "redux-visualizer",
   "version": "1.0.0",
   "description": "Redux Visualizer is a modal component that allows you to inspect, expand, and edit Redux states in real-time. It displays your state as an interactive tree structure and supports editing values of any type",
-  "private": true,
-  "main": "dist/index.js",
-  "module": "dist/index.js",
+  "private": false,
+  "main": "dist/redux-visualizer.umd.js",
+  "module": "dist/redux-visualizer.es.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -31,12 +31,20 @@
   },
   "homepage": "https://github.com/EricCoisa/redux-visualizer#readme",
   "dependencies": {
-    "@reduxjs/toolkit": "^2.9.0",
+  },
+  "peerDependencies": {
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "react-redux": "^9.2.0"
+    "redux": "^4.2.0",
+    "react-redux": "^9.2.0",
+    "@reduxjs/toolkit": "^2.9.0"
   },
   "devDependencies": {
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "redux": "^4.2.0",
+    "react-redux": "^9.2.0",
+    "@reduxjs/toolkit": "^2.9.0",
     "@eslint/js": "^9.33.0",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
