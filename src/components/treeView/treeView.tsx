@@ -13,20 +13,39 @@ function updateValueAtPath(obj: any, path: (string|number)[], newValue: any): an
   return copy;
 }
 
-const TreeView: React.FC = () => {
-  const reduxState = useSelector((state) => state);
-  const dispatch = useDispatch();
+interface TreeViewProps {
+  store?: any;
+}
+
+const TreeView: React.FC<TreeViewProps> = ({ store }) => {
+  // Se store for passado manualmente, use ele, senão use o Redux padrão
+  let reduxState: any = undefined;
+  let dispatch: any = undefined;
+  try {
+    reduxState = store ? (typeof store.getState === 'function' ? store.getState() : store) : useSelector((state) => state);
+    dispatch = store ? (typeof store.dispatch === 'function' ? store.dispatch : () => {}) : useDispatch();
+  } catch {
+    reduxState = undefined;
+    dispatch = undefined;
+  }
   const [localState, setLocalState] = useState<any>(reduxState);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editValue, setEditValue] = useState<any>('');
   const [editPath, setEditPath] = useState<(string|number)[] | null>(null);
 
   useEffect(() => {
-    setLocalState(reduxState);
+    setLocalState(reduxState ?? {});
   }, [reduxState]);
 
+  if (reduxState === undefined || reduxState === null) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <span style={{ color: '#888', fontSize: 18, fontWeight: 500 }}>Redux not Found</span>
+      </div>
+    );
+  }
+
   const handleEditRequest = (value: unknown, path: (string|number)[]) => {
-    console.log('handleEditRequest', { value, path });
     setEditValue(value);
     setEditPath(path);
     setIsModalOpen(true);
@@ -35,13 +54,16 @@ const TreeView: React.FC = () => {
   const handleSave = (newValue: any) => {
     if (editPath) {
       // Atualiza o estado global do Redux
-      const updatedState = updateValueAtPath(reduxState, editPath, newValue);
-      dispatch(setEntireState(updatedState));
+      const updatedState = updateValueAtPath(reduxState ?? {}, editPath, newValue);
+      if (dispatch) {
+        dispatch(setEntireState(updatedState));
+      }
     }
     setIsModalOpen(false);
     setEditPath(null);
   };
 
+  console.log('TreeView - isModalOpen:', isModalOpen);
 
   return (
     <div className="rv-tree-view">
@@ -60,13 +82,7 @@ const TreeView: React.FC = () => {
         path={[]}
         renderLeaf={({ value, path, name, type, expanded: isExpanded, onToggle }) => {
           const canExpand = type === 'array' || type === 'object';
-          // Badge logic
-          let badge = null;
-          if (path.length === 1) {
-            badge = <span className="rv-badge rv-badge-reducer">Reducer</span>;
-          } else if (path.length > 1) {
-            badge = <span className="rv-badge rv-badge-state">State</span>;
-          }
+          console.log('TreeView renderLeaf - isModalOpen:', isModalOpen); // Log para verificar propagação
           return (
             <ItemTree
               name={String(name)}
@@ -75,7 +91,6 @@ const TreeView: React.FC = () => {
               expanded={canExpand ? isExpanded : undefined}
               onToggle={canExpand ? onToggle : undefined}
               onEdit={() => handleEditRequest(value, path)}
-              badge={badge}
             />
           );
         }}
@@ -84,12 +99,16 @@ const TreeView: React.FC = () => {
         iconExpand={<span style={{ fontWeight: 'bold' }}>-</span>}
         iconCollapse={<span style={{ fontWeight: 'bold' }}>+</span>}
         onEdit={handleEditRequest}
+        storeKeys={Object.keys(reduxState ?? {})} // Passando storeKeys no nó raiz
+        isModalOpen={isModalOpen} // Passando isModalOpen para o TreeWrapper
       />
       <EditValueModal
         isOpen={isModalOpen}
         initialValue={editValue}
         onSave={handleSave}
         onClose={() => setIsModalOpen(false)}
+        storeKeys={Object.keys(reduxState ?? {})} // Passando storeKeys para o EditValueModal
+        path={editPath} // Passando o path correto para o EditValueModal
       />
     </div>
   );

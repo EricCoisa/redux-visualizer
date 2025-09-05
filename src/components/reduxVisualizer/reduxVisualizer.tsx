@@ -7,6 +7,7 @@ interface ReduxVisualizerProps {
   onClose: () => void;
   overlay?: boolean;
   savePosition?: boolean;
+  store?: any;
 }
 
 
@@ -15,7 +16,7 @@ function clamp(val: number, min: number, max: number) {
 }
 
 
-const ReduxVisualizer: React.FC<ReduxVisualizerProps> = ({ isOpen, onClose, overlay = false, savePosition = true }) => {
+const ReduxVisualizer: React.FC<ReduxVisualizerProps> = ({ isOpen, onClose, overlay = false, savePosition = true, store }) => {
   // Carrega posição e tamanho do localStorage se savePosition
   const getSaved = () => {
     if (!savePosition) return null;
@@ -172,7 +173,7 @@ const ReduxVisualizer: React.FC<ReduxVisualizerProps> = ({ isOpen, onClose, over
         </button>
       </div>
       <div className="rv-modal-body">
-        <TreeView />
+        <TreeView store={store} />
       </div>
       <div
         className="rv-modal-resize-handle"

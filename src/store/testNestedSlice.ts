@@ -16,7 +16,7 @@ const initialState: NestedTest[] = [
   {
     x: [1, 2, 3],
     y: {
-      a: 'hello',
+      a: '#ff0000',
       b: 42,
       c: { d: true },
       flag: true,

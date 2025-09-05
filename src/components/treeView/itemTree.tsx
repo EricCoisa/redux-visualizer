@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import './style.css';
 
@@ -11,9 +9,10 @@ export interface ItemTreeProps {
   onToggle?: () => void;
   onEdit?: () => void;
   badge?: React.ReactNode;
+  isModalOpen?: boolean; // Adicionado para controlar a exibição do botão de edição
 }
 
-const ItemTree: React.FC<ItemTreeProps> = ({ name, value, type, expanded, onToggle, onEdit, badge }) => {
+const ItemTree: React.FC<ItemTreeProps> = ({ name, value, type, expanded, onToggle, onEdit, badge, isModalOpen }) => {
   return (
     <div className="rv-item-tree-view">
       <div className="rv-item-tree-content">
@@ -28,8 +27,9 @@ const ItemTree: React.FC<ItemTreeProps> = ({ name, value, type, expanded, onTogg
         {!onToggle && (
           <span className="rv-item-tree-value" style={{ marginRight: 8 }}>{JSON.stringify(value)}</span>
         )}
-        <button className="rv-item-tree-edit-btn" style={{ marginLeft: 'auto' }} onClick={onEdit} title={`Editar ${type}`}>✏️</button>
-   
+        {!isModalOpen && (
+          <button className="rv-item-tree-edit-btn" style={{ marginLeft: 'auto' }} onClick={onEdit} title={`Editar ${type}`}>✏️</button>
+        )}
       </div>
     </div>
   );

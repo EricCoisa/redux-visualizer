@@ -6,10 +6,12 @@ interface EditValueModalProps {
   initialValue: any;
   onSave: (value: any) => void;
   onClose: () => void;
+  storeKeys: (string | number)[]; // Adicionado storeKeys aqui
+  path: (string | number)[] | null; // Adicionado path aqui
+  isModalOpen?: boolean; // Adicionado isModalOpen
 }
 
-
-const EditValueModal: React.FC<EditValueModalProps> = ({ isOpen, initialValue, onSave, onClose }) => {
+const EditValueModal: React.FC<EditValueModalProps> = ({ isOpen, initialValue, onSave, onClose, storeKeys, path, isModalOpen }) => {
   const [value, setValue] = useState<any>(initialValue);
 
   // Sincroniza o valor inicial sempre que o modal for aberto ou o valor mudar
@@ -48,15 +50,20 @@ const EditValueModal: React.FC<EditValueModalProps> = ({ isOpen, initialValue, o
     <div className="rv-edit-modal-overlay">
       <div className="rv-edit-modal-content">
         <div className="rv-modal-header">
-          <button className="rv-modal-close" onClick={onClose} title="Cancelar">Cancelar</button>
-          <span className="rv-edit-modal-title">Editar Valor</span>
+       
+          <span className="rv-edit-modal-title">Edit</span>
           <span className="rv-modal-header-spacer" />
-          <button className="rv-edit-modal-btn rv-edit-modal-btn-primary" onClick={() => onSave(value)} title="Salvar">Salvar</button>
+            
+          <button className="rv-edit-modal-btn rv-edit-modal-btn-primary" onClick={() => onSave(value)} title="Save">Save</button>
+          <button className="rv-modal-close" onClick={onClose} title="Close">X</button>
         </div>
         <div className="rv-modal-body">
           <ValueEditor
             value={value}
+            path={path ?? []} // Inicializando path como array vazio
             onChange={(newVal, path) => updateValueAtPath(newVal, path)}
+            storeKeys={storeKeys?.map(String)} // Convertendo storeKeys para string[]
+            isModalOpen={isModalOpen} // Passando isModalOpen para o ValueEditor
           />
         </div>
       </div>

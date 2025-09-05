@@ -4,13 +4,56 @@ import './style.css';
 
 interface ValueEditorProps {
   value: any;
-  path?: (string|number)[];
+  path?: (string|number)[] ;
   onChange: (newValue: any, path: (string|number)[]) => void;
+  storeKeys?: string[]; // Adicionando storeKeys
+  isModalOpen?: boolean; // Adicionando isModalOpen
 }
 
-const ValueEditor: React.FC<ValueEditorProps> = ({ value, path = [], onChange }) => {
+const ValueEditor: React.FC<ValueEditorProps> = ({ value, path = [], onChange, storeKeys, isModalOpen }) => {
   // Função para renderizar folha editável
   const renderLeaf = ({ value, path, name, type }: any) => {
+    // Detecta cor hex ou rgb
+    const isColorString =
+      typeof value === 'string' &&
+      (value.match(/^#([0-9a-fA-F]{3,8})$/) || value.match(/^rgb\s*\((\s*\d+\s*,){2}\s*\d+\s*\)$/));
+
+    if (type === 'string' && isColorString) {
+      // Hex: input type=color
+      if (value.startsWith('#')) {
+        return (
+          <div className="rv-value-editor-field">
+            {name !== undefined && <span className="rv-value-editor-label">{name}</span>}
+            <input
+              type="color"
+              className="rv-value-editor-input"
+              value={value}
+              onChange={e => onChange(e.target.value, path)}
+            />
+            <span className="rv-value-editor-other">{value}</span>
+          </div>
+        );
+      }
+      // rgb: converte para hex para input type=color
+      if (value.startsWith('rgb')) {
+        const rgb = value.match(/\d+/g)?.map(Number) ?? [0,0,0];
+        const hex = '#' + rgb.map(x => x.toString(16).padStart(2, '0')).join('');
+        return (
+          <div className="rv-value-editor-field">
+            {name !== undefined && <span className="rv-value-editor-label">{name}</span>}
+            <input
+              type="color"
+              className="rv-value-editor-input"
+              value={hex}
+              onChange={e => {
+                onChange(e.target.value, path);
+              }}
+            />
+            <span className="rv-value-editor-other">{value}</span>
+          </div>
+        );
+      }
+    }
     if (type === 'string') {
       return (
         <div className="rv-value-editor-field">
@@ -70,6 +113,10 @@ const ValueEditor: React.FC<ValueEditorProps> = ({ value, path = [], onChange })
       renderLeaf={renderLeaf}
       editable={true}
       onEdit={(_, __) => {}}
+      storeKeys={storeKeys} // Passando storeKeys para TreeWrapper
+      isModalOpen={isModalOpen} // Passando isModalOpen para TreeWrapper
+      name={path[path.length - 1]} // Passando o nome do nó atual
+      initializeExpanded={true}
     />
   );
 };

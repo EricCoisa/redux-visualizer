@@ -13,6 +13,9 @@ interface TreeWrapperProps {
   iconCollapse?: React.ReactNode;
   expanded?: boolean;
   onToggle?: () => void;
+  storeKeys?: string[];
+  initializeExpanded?: boolean;
+  isModalOpen?: boolean; // Nova propriedade
 }
 
 const getType = (value: unknown): string => {
@@ -21,9 +24,9 @@ const getType = (value: unknown): string => {
   return typeof value;
 };
 
-const TreeWrapper: React.FC<TreeWrapperProps> = ({ value, path = [], renderLeaf, onEdit, name, editable, style, iconExpand, iconCollapse, expanded: expandedProp, onToggle: onToggleProp }) => {
+const TreeWrapper: React.FC<TreeWrapperProps> = ({ value, path = [], renderLeaf, onEdit, name, editable, style, iconExpand, iconCollapse, expanded: expandedProp, onToggle: onToggleProp, storeKeys, isModalOpen }) => {
   const type = getType(value);
-  const [expandedState, setExpandedState] = useState(true);
+  const [expandedState, setExpandedState] = useState(false);
   const expanded = expandedProp !== undefined ? expandedProp : expandedState;
   const onToggle = onToggleProp !== undefined ? onToggleProp : () => setExpandedState((prev) => !prev);
   const iconOpen = iconExpand ?? <span style={{ fontWeight: 'bold' }}>-</span>;
@@ -32,18 +35,21 @@ const TreeWrapper: React.FC<TreeWrapperProps> = ({ value, path = [], renderLeaf,
   // Calcula o nível da árvore (root = 0)
   const level = path.length;
   const btnLevelClass = `rv-tree-toggle-btn-level-${level > 4 ? 4 : level}`;
-
   // Badge para header
   let badge = null;
   if (level === 0) {
     badge = <span className="rv-badge rv-badge-root">Root</span>;
-  } else if (level === 1) {
+  } else if (name !== undefined && storeKeys?.includes(String(name))) {
     badge = <span className="rv-badge rv-badge-reducer">Reducer</span>;
-  } else if (level > 1) {
+  } else {
     badge = <span className="rv-badge rv-badge-state">State</span>;
   }
 
-  if (type === 'array') {
+  console.log('storeKeys:', storeKeys, 'name:', name, 'level:', level);
+  console.log('TreeWrapper - isModalOpen:', isModalOpen);
+  console.log('TreeWrapper render - isModalOpen:', isModalOpen, 'path:', path, 'name:', name); // Log adicionado
+
+  if (type === 'array' && Array.isArray(value)) {
     // Para arrays, renderiza header e botão de edição
     return (
       <div className="rv-tree-container">
@@ -57,15 +63,17 @@ const TreeWrapper: React.FC<TreeWrapperProps> = ({ value, path = [], renderLeaf,
           </button>
           <span className="rv-tree-label">{name ?? '[Array]'}</span>
           {badge}
-          <button
-            className="rv-item-tree-edit-btn"
-            onClick={onEdit ? () => onEdit(value, path) : undefined}
-            title="Editar array"
-          >
-            ✏️
-          </button>
+          {!isModalOpen && (
+            <button
+              className="rv-item-tree-edit-btn"
+              onClick={onEdit ? () => onEdit(value, path) : undefined}
+              title="Editar array"
+            >
+              ✏️
+            </button>
+          )}
         </div>
-        {expanded && value.map((item: any, idx: number) => (
+        {expanded && value?.map?.((item: any, idx: number) => (
           <TreeWrapper
             key={idx}
             value={item}
@@ -77,12 +85,14 @@ const TreeWrapper: React.FC<TreeWrapperProps> = ({ value, path = [], renderLeaf,
             style={style}
             iconExpand={iconExpand}
             iconCollapse={iconCollapse}
+            storeKeys={storeKeys} // Propagando storeKeys
+            isModalOpen={isModalOpen} // Propagando isModalOpen
           />
         ))}
       </div>
     );
   }
-  if (type === 'object') {
+  if (type === 'object' && value && typeof value === 'object') {
     // Para objetos, renderiza header e botão de edição
     return (
       <div className="rv-tree-container">
@@ -96,28 +106,35 @@ const TreeWrapper: React.FC<TreeWrapperProps> = ({ value, path = [], renderLeaf,
           </button>
           <span className="rv-tree-label">{name ?? '{Object}'}</span>
           {badge}
-          <button
-            className="rv-item-tree-edit-btn"
-            onClick={onEdit ? () => onEdit(value, path) : undefined}
-            title="Editar objeto"
-          >
-            ✏️
-          </button>
+          {!isModalOpen && (
+            <button
+              className="rv-item-tree-edit-btn"
+              onClick={onEdit ? () => onEdit(value, path) : undefined}
+              title="Editar objeto"
+            >
+              ✏️
+            </button>
+          )}
         </div>
-        {expanded && Object.entries(value).map(([k, v]) => (
-          <TreeWrapper
-            key={k}
-            value={v}
-            path={[...path, k]}
-            renderLeaf={renderLeaf}
-            onEdit={onEdit}
-            name={k}
-            editable={editable}
-            style={style}
-            iconExpand={iconExpand}
-            iconCollapse={iconCollapse}
-          />
-        ))}
+        {expanded && Object.entries(value ?? {}).map(([k, v]) => {
+          console.log('TreeWrapper child render - isModalOpen:', isModalOpen, 'key:', k); // Log para verificar propagação para filhos
+          return (
+            <TreeWrapper
+              key={k}
+              value={v}
+              path={[...path, k]}
+              renderLeaf={renderLeaf}
+              onEdit={onEdit}
+              name={k}
+              editable={editable}
+              style={style}
+              iconExpand={iconExpand}
+              iconCollapse={iconCollapse}
+              storeKeys={storeKeys} // Propagando storeKeys
+              isModalOpen={isModalOpen} // Garantindo propagação de isModalOpen
+            />
+          );
+        })}
       </div>
     );
   }
