@@ -6,6 +6,7 @@ interface ReduxVisualizerProps {
   isOpen: boolean;
   onClose: () => void;
   overlay?: boolean;
+  savePosition?: boolean;
 }
 
 
@@ -14,9 +15,19 @@ function clamp(val: number, min: number, max: number) {
 }
 
 
-const ReduxVisualizer: React.FC<ReduxVisualizerProps> = ({ isOpen, onClose, overlay = false }) => {
-  const [position, setPosition] = useState({ top: 80, left: 80 });
-  const [size, setSize] = useState<{ width: number; height: number }>({ width: 400, height: 300 });
+const ReduxVisualizer: React.FC<ReduxVisualizerProps> = ({ isOpen, onClose, overlay = false, savePosition = true }) => {
+  // Carrega posição e tamanho do localStorage se savePosition
+  const getSaved = () => {
+    if (!savePosition) return null;
+    try {
+      const raw = localStorage.getItem('rv-visualizer-pos');
+      if (!raw) return null;
+      return JSON.parse(raw);
+    } catch { return null; }
+  };
+  const saved = getSaved();
+  const [position, setPosition] = useState(saved?.position ?? { top: 80, left: 80 });
+  const [size, setSize] = useState<{ width: number; height: number }>(saved?.size ?? { width: 400, height: 300 });
   const [resizing, setResizing] = useState(false);
   const resizeStart = useRef<{ x: number; y: number; width: number; height: number }>({ x: 0, y: 0, width: 0, height: 0 });
   const modalRef = useRef<HTMLDivElement>(null);
@@ -35,9 +46,15 @@ const ReduxVisualizer: React.FC<ReduxVisualizerProps> = ({ isOpen, onClose, over
 
 
   // Atualiza posição se a tela for redimensionada
+  // Salva posição/tamanho no localStorage se savePosition
+  React.useEffect(() => {
+    if (!savePosition) return;
+    localStorage.setItem('rv-visualizer-pos', JSON.stringify({ position, size }));
+  }, [position, size, savePosition]);
+
   React.useEffect(() => {
     const handleResize = () => {
-      setPosition((pos) => {
+      setPosition((pos: { top: number; left: number }) => {
         const maxLeft = window.innerWidth - size.width;
         const maxTop = window.innerHeight - size.height;
         return {
@@ -147,12 +164,12 @@ const ReduxVisualizer: React.FC<ReduxVisualizerProps> = ({ isOpen, onClose, over
       }}
     >
       <div className="rv-modal-header" onMouseDown={handleMouseDown}>
-        <button className="rv-modal-close" onClick={onClose} title="Fechar">
-          Close
-        </button>
+     
         <span className="rv-modal-title">Redux Visualizer</span>
         <span className="rv-modal-header-spacer" />
-        <span className="rv-modal-header-drag">Arraste aqui</span>
+        <button className="rv-modal-close" onClick={onClose} title="Fechar">
+          X
+        </button>
       </div>
       <div className="rv-modal-body">
         <TreeView />
@@ -172,6 +189,7 @@ const ReduxVisualizer: React.FC<ReduxVisualizerProps> = ({ isOpen, onClose, over
         onMouseDown={handleResizeMouseDown}
         title="Redimensionar"
       />
+      <div className="rv-modal-resize-handle" />
     </div>
   );
 

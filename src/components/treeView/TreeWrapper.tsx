@@ -21,8 +21,6 @@ const getType = (value: unknown): string => {
   return typeof value;
 };
 
-const isExpandable = (value: unknown): value is object => typeof value === 'object' && value !== null;
-
 const TreeWrapper: React.FC<TreeWrapperProps> = ({ value, path = [], renderLeaf, onEdit, name, editable, style, iconExpand, iconCollapse, expanded: expandedProp, onToggle: onToggleProp }) => {
   const type = getType(value);
   const [expandedState, setExpandedState] = useState(true);

@@ -42,19 +42,6 @@ const TreeView: React.FC = () => {
     setEditPath(null);
   };
 
-  const renderLeaf = ({ value, path, name, type, expanded: isExpanded, onToggle }: any) => {
-    const canExpand = type === 'array' || type === 'object';
-    return (
-      <ItemTree
-        name={name}
-        value={value}
-        type={type}
-        expanded={canExpand ? isExpanded : undefined}
-        onToggle={canExpand ? onToggle : undefined}
-        onEdit={() => handleEditRequest(value, path)}
-      />
-    );
-  };
 
   return (
     <div className="rv-tree-view">

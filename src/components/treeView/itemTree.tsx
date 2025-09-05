@@ -25,10 +25,11 @@ const ItemTree: React.FC<ItemTreeProps> = ({ name, value, type, expanded, onTogg
         <span className="rv-item-tree-name">{name}</span>
         <span className="rv-item-tree-type">({type})</span>
         {badge}
-        <button className="rv-item-tree-edit-btn" onClick={onEdit} title={`Editar ${type}`}>✏️</button>
         {!onToggle && (
-          <span className="rv-item-tree-value">{JSON.stringify(value)}</span>
+          <span className="rv-item-tree-value" style={{ marginRight: 8 }}>{JSON.stringify(value)}</span>
         )}
+        <button className="rv-item-tree-edit-btn" style={{ marginLeft: 'auto' }} onClick={onEdit} title={`Editar ${type}`}>✏️</button>
+   
       </div>
     </div>
   );

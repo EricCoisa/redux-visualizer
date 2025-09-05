@@ -8,11 +8,6 @@ interface EditValueModalProps {
   onClose: () => void;
 }
 
-const getType = (value: unknown): string => {
-  if (Array.isArray(value)) return 'array';
-  if (value === null) return 'null';
-  return typeof value;
-};
 
 const EditValueModal: React.FC<EditValueModalProps> = ({ isOpen, initialValue, onSave, onClose }) => {
   const [value, setValue] = useState<any>(initialValue);

@@ -20,8 +20,28 @@
   margin: 0;
   position: relative;
   overflow: hidden;
+  z-index: 9999;
 }
 
+.rv-modal-resize-handle {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  bottom: 0;
+  right: 0;
+  cursor: se-resize;
+  background-color: rgba(0, 0, 0, 0.274) !important;
+}
+
+.rv-modal-content * button:not(.rv-modal-close) {
+  background-color: rgba(0, 122, 255, 0.05);
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
 
 .rv-modal-header {
   height: 40px;
@@ -35,11 +55,16 @@
 }
 
 .rv-modal-close {
-  margin-right: 12px;
+
   font-size: 16px;
   cursor: pointer;
-  background: transparent;
+  background-color: rgba(0, 0, 0, 0.274) !important;
   border: none;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .rv-modal-title {
