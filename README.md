@@ -1,47 +1,51 @@
-﻿# Redux Visualizer
+﻿# 🔍 Redux Visualizer
+
+[English](./README.md) | [Português](./README.pt-BR.md)
 
 [![npm version](https://img.shields.io/npm/v/redux-visualizer.svg)](https://www.npmjs.com/package/redux-visualizer)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/EricCoisa/redux-visualizer/blob/main/LICENCE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org)
 [![React](https://img.shields.io/badge/React-19+-61DAFB.svg)](https://reactjs.org)
 
-**Redux Visualizer** é um componente React em forma de modal que permite **inspecionar, expandir e editar estados do Redux** em tempo real. Ele exibe o estado como uma **árvore interativa** e oferece suporte completo para edição de valores de qualquer tipo, tornando o processo de debug e visualização mais simples e intuitivo.
+> An interactive visual tool to inspect and edit Redux states in real-time
+
+**Redux Visualizer** is a React modal component that allows you to **inspect, expand, and edit Redux states** in real-time. It displays the state as an **interactive tree** and offers complete support for editing values of any type, making the debugging and visualization process simpler and more intuitive.
 
 ---
 
-##  Recursos Principais
+## ✨ Key Features
 
--  **Visualização em Árvore**: Estados exibidos como estrutura hierárquica expansível
--  **Edição em Tempo Real**: Edite strings, números, booleanos, objetos e arrays diretamente
--  **Tipos Inteligentes**: Detecta automaticamente cores hex/rgb com seletor visual
--  **Modal Interativo**: Arrastável, redimensionável e responsivo
--  **Badges Visuais**: Distingue visualmente Reducers, States e Root
--  **Sincronização Automática**: Mudanças refletem imediatamente no Redux
+- ✨ **Tree Visualization**: States displayed as expandable hierarchical structure
+- ⚡ **Real-time Editing**: Edit strings, numbers, booleans, objects, and arrays directly
+- 🎨 **Smart Types**: Automatically detects hex/rgb colors with visual color picker
+- 📱 **Interactive Modal**: Draggable, resizable, and responsive
+- 🏷️ **Visual Badges**: Visually distinguishes Reducers, States, and Root
+- 🔄 **Auto Sync**: Changes reflect immediately in Redux
 
 ---
 
-##  Instalação
+## 📦 Installation
 
-Instale via npm ou yarn:
+Install via npm or yarn:
 
-`ash
+```bash
 npm install redux-visualizer
-# ou
+# or
 yarn add redux-visualizer
-# ou  
+# or  
 pnpm add redux-visualizer
-`
+```
 
 ---
 
-##  Uso Básico
+## 🚀 Basic Usage
 
-### Configuração Simples
+### Simple Configuration
 
-`	sx
+```tsx
 import React, { useState } from 'react';
 import { ReduxVisualizer } from 'redux-visualizer';
-import 'redux-visualizer/dist/style.css'; // Importe os estilos
+import 'redux-visualizer/dist/style.css'; // Import styles
 
 export function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -49,7 +53,7 @@ export function App() {
   return (
     <div>
       <button onClick={() => setIsOpen(true)}>
-         Abrir Redux Visualizer
+        🔍 Open Redux Visualizer
       </button>
       
       <ReduxVisualizer
@@ -61,125 +65,126 @@ export function App() {
     </div>
   );
 }
-`
+```
 
-### Com Store Customizada
+### With Custom Store
 
-`	sx
+```tsx
 import { ReduxVisualizer } from 'redux-visualizer';
 import { myCustomStore } from './store';
 
 <ReduxVisualizer
   isOpen={isOpen}
   onClose={() => setIsOpen(false)}
-  store={myCustomStore} // Passa sua store customizada - opcional
+  store={myCustomStore} // Pass your custom store - optional
 />
-`
+```
 
 ---
 
-##  Propriedades
+## ⚙️ Properties
 
-| Propriedade | Tipo | Padrão | Descrição |
-|-------------|------|---------|-----------|
-| **isOpen** | oolean | alse | Define se o modal está aberto ou fechado |
-| **onClose** | () => void | - | Função chamada ao fechar o modal |
-| **overlay** | oolean | alse | Exibe overlay escuro atrás do modal |
-| **savePosition** | oolean | 	rue | Salva posição e tamanho no localStorage |
-| **store** | Store | - | Store Redux customizada (opcional) |
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| **isOpen** | boolean | false | Defines whether the modal is open or closed |
+| **onClose** | () => void | - | Function called when closing the modal |
+| **overlay** | boolean | false | Shows dark overlay behind the modal |
+| **savePosition** | boolean | true | Saves position and size in localStorage |
+| **store** | Store | - | Custom Redux store (optional) |
 
 ---
 
-##  Funcionalidades Avançadas
+## 🔧 Advanced Features
 
-###  Edição de Cores
-O Redux Visualizer detecta automaticamente valores de cor e oferece um seletor visual:
+### 🎨 Color Editing
+Redux Visualizer automatically detects color values and offers a visual color picker:
 
-`	sx
-// Estado Redux
+```tsx
+// Redux State
 const state = {
   theme: {
     primaryColor: "#3B82F6",    // Hex colors
     bgColor: "rgb(255,0,0)"     // RGB colors
   }
 }
-`
+```
 
-###  Sistema de Badges
-- ** Root**: Nó raiz do estado
-- ** Reducer**: Chaves principais dos reducers  
-- ** State**: Propriedades internas do estado
+### 🏷️ Badge System
+- **🔹 Root**: Root node of the state
+- **⚙️ Reducer**: Main reducer keys  
+- **📄 State**: Internal state properties
 
-###  Tipos de Edição Suportados
--  **String**: Input de texto
--  **Number**: Input numérico
--  **Boolean**: Checkbox interativo
--  **Color**: Seletor de cor (hex/rgb)
--  **Object**: Expansão hierárquica
--  **Array**: Visualização de lista
+### ⚡ Supported Editing Types
+- ✍️ **String**: Text input
+- 🔢 **Number**: Numeric input
+- ✅ **Boolean**: Interactive checkbox
+- 🎨 **Color**: Color picker (hex/rgb)
+- 📦 **Object**: Hierarchical expansion
+- 📋 **Array**: List visualization
 
 ---
 
-##  Peer Dependencies
+## 📋 Peer Dependencies
 
-Este pacote requer as seguintes dependências no seu projeto:
+This package requires the following dependencies in your project:
 
-| Pacote | Versão Recomendada |
-|--------|-------------------|
-| 
-React | ^19.1.1 |
-| 
-React-dom | ^19.1.1 |
-| 
-Redux | ^4.2.0 \|\| ^5.0.0 |
-| 
-React-redux | ^9.2.0 |
-| @reduxjs/toolkit | ^2.9.0 |
+| Package | Recommended Version |
+|---------|-------------------|
+| **React** | ^19.1.1 |
+| **React-dom** | ^19.1.1 |
+| **Redux** | ^4.2.0 \|\| ^5.0.0 |
+| **React-redux** | ^9.2.0 |
+| **@reduxjs/toolkit** | ^2.9.0 |
 
-### Instalação das Dependências
+### Installing Dependencies
 
-`ash
+```bash
 npm install react react-dom redux react-redux @reduxjs/toolkit
-`
+```
 
 ---
 
+## ⚙️ Development
 
-##  Desenvolvimento
+### Available Scripts
 
-### Scripts Disponíveis
-
-`ash
-# Desenvolvimento
+```bash
+# Development
 npm run dev
 
-`
+# Production build
+npm run build
+
+# Preview build
+npm run preview
+
+# Type checking
+npm run type-check
+```
 
 ### Build Output
 
-A build gera os seguintes arquivos em dist/:
+The build generates the following files in `dist/`:
 
-- **
-edux-visualizer.es.js** - Módulo ESM
-- **
-edux-visualizer.umd.js** - Módulo UMD  
-- **index.d.ts** - Tipos TypeScript
-- **style.css** - Estilos CSS
+- **redux-visualizer.es.js** - ESM Module
+- **redux-visualizer.umd.js** - UMD Module  
+- **index.d.ts** - TypeScript types
+- **style.css** - CSS styles
 
 ---
 
-##  Personalização
+## 🎨 Customization
 
 ### CSS Customization
 
-`css
-/* Sobrescrevendo estilos do modal */
+```css
+/* Overriding modal styles */
 .rv-modal-content {
   border-radius: 12px;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
-/* Customizando cores dos badges */
+/* Customizing badge colors */
 .rv-badge-reducer {
   background-color: #3B82F6;
 }
@@ -187,52 +192,52 @@ edux-visualizer.umd.js** - Módulo UMD
 .rv-badge-state {
   background-color: #10B981;
 }
-`
+```
 
 ---
 
-##  Contribuindo
+## 🤝 Contributing
 
-Contribuições são sempre **muito bem-vindas**! 
+Contributions are always **very welcome**! 
 
-### Como Contribuir
+### How to Contribute
 
-1. **Fork** o projeto
-2. Crie sua branch de feature (git checkout -b feature/nova-funcionalidade)
-3. **Commit** suas mudanças (git commit -m 'feat: adiciona nova funcionalidade')
-4. **Push** para a branch (git push origin feature/nova-funcionalidade)
-5. Abra um **Pull Request**
+1. **Fork** the project
+2. Create your feature branch (`git checkout -b feature/new-feature`)
+3. **Commit** your changes (`git commit -m 'feat: add new feature'`)
+4. **Push** to the branch (`git push origin feature/new-feature`)
+5. Open a **Pull Request**
 
-### Diretrizes
+### Guidelines
 
-- Use **TypeScript** para todas as funcionalidades
-- Mantenha a **compatibilidade** com as versões suportadas
-- Adicione **testes** para novas funcionalidades
-- Siga os padrões de **código limpo**
-- Documente **mudanças significativas**
-
----
-
-##  Reportando Bugs
-
-Encontrou um bug? Ajude-nos a melhorar!
-
-1. Verifique se o problema já não foi [reportado](https://github.com/EricCoisa/redux-visualizer/issues)
-2. Crie uma [nova issue](https://github.com/EricCoisa/redux-visualizer/issues/new) com:
-   - Versão do Redux Visualizer
-   - Versão do React/Redux
-   - Código para reproduzir o problema
-   - Comportamento esperado vs atual
+- Use **TypeScript** for all features
+- Maintain **compatibility** with supported versions
+- Add **tests** for new features
+- Follow **clean code** standards
+- Document **significant changes**
 
 ---
 
-##  Licença
+## 🐛 Reporting Bugs
 
-Este projeto está licenciado sob a **[Licença MIT](./LICENCE)**.
+Found a bug? Help us improve!
+
+1. Check if the issue hasn't been already [reported](https://github.com/EricCoisa/redux-visualizer/issues)
+2. Create a [new issue](https://github.com/EricCoisa/redux-visualizer/issues/new) with:
+   - Redux Visualizer version
+   - React/Redux version
+   - Code to reproduce the issue
+   - Expected vs actual behavior
 
 ---
 
-##  Autor
+## 📄 License
+
+This project is licensed under the **[MIT License](./LICENCE)**.
+
+---
+
+## 👨‍💻 Author
 
 **Eric Vitor**
 - GitHub: [@EricCoisa](https://github.com/EricCoisa)
@@ -241,8 +246,14 @@ Este projeto está licenciado sob a **[Licença MIT](./LICENCE)**.
 
 <div align="center">
 
-** Se este projeto te ajudou, considere dar uma estrela no GitHub!**
+**⭐ If this project helped you, consider giving it a star on GitHub!**
 
-[ Star no GitHub](https://github.com/EricCoisa/redux-visualizer)  [ NPM Package](https://www.npmjs.com/package/redux-visualizer)  [ Reportar Bug](https://github.com/EricCoisa/redux-visualizer/issues)
+[⭐ Star on GitHub](https://github.com/EricCoisa/redux-visualizer) • [📦 NPM Package](https://www.npmjs.com/package/redux-visualizer) • [🐛 Report Bug](https://github.com/EricCoisa/redux-visualizer/issues)
+
+---
+
+<p align="center">
+  Made with ❤️ to facilitate Redux application development and debugging
+</p>
 
 </div>
