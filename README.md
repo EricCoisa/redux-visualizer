@@ -250,10 +250,4 @@ This project is licensed under the **[MIT License](./LICENCE)**.
 
 [⭐ Star on GitHub](https://github.com/EricCoisa/redux-visualizer) • [📦 NPM Package](https://www.npmjs.com/package/redux-visualizer) • [🐛 Report Bug](https://github.com/EricCoisa/redux-visualizer/issues)
 
----
-
-<p align="center">
-  Made with ❤️ to facilitate Redux application development and debugging
-</p>
-
 </div>
