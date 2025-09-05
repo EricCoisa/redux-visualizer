@@ -10,7 +10,6 @@ interface ValueEditorProps {
 }
 
 const ValueEditor: React.FC<ValueEditorProps> = ({ value, path = [], onChange, storeKeys }) => {
-  // Função para renderizar folha editável
   const renderLeaf = ({ value, path, name, type }: any) => {
     // Detecta cor hex ou rgb
     const isColorString =

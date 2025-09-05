@@ -107,7 +107,6 @@ const TreeView: React.FC<TreeViewProps> = ({ store }) => {
         onSave={handleSave}
         onClose={() => setIsModalOpen(false)}
         storeKeys={Object.keys(reduxState ?? {})} // Passando storeKeys para o EditValueModal
-        path={editPath} // Passando o path correto para o EditValueModal
       />
     </div>
   );

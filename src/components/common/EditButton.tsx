@@ -19,7 +19,6 @@ const EditButton: React.FC<EditButtonProps> = ({
   style = {},
   isModalOpen = false
 }) => {
-  // Se o modal estiver aberto, não renderiza o botão
   if (isModalOpen) {
     return null;
   }
@@ -27,7 +26,6 @@ const EditButton: React.FC<EditButtonProps> = ({
   const baseClass = 'rv-edit-btn';
   const variantClass = `rv-edit-btn-${variant}`;
   
-  // Mapeamento de classes antigas para manter compatibilidade
   const legacyClassMap = {
     tree: 'rv-item-tree-edit-btn',
     state: 'rv-state-edit-btn',

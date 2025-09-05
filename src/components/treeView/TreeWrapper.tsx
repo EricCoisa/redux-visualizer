@@ -28,21 +28,18 @@ const getType = (value: unknown): string => {
 
 const TreeWrapper: React.FC<TreeWrapperProps> = ({ value, path = [], renderLeaf, onEdit, name, editable, style, iconExpand, iconCollapse, expanded: expandedProp, onToggle: onToggleProp, storeKeys, isModalOpen = false, initializeExpanded = false }) => {
   const type = getType(value);
-  const [expandedState, setExpandedState] = useState(false);
+  const [expandedState, setExpandedState] = useState(initializeExpanded);
   const expanded = expandedProp !== undefined ? expandedProp : expandedState;
   const onToggle = onToggleProp !== undefined ? onToggleProp : () => setExpandedState((prev) => !prev);
   const iconOpen = iconExpand ?? <span style={{ fontWeight: 'bold' }}>-</span>;
   const iconClosed = iconCollapse ?? <span style={{ fontWeight: 'bold' }}>+</span>;
 
-  // Calcula o nível da árvore (root = 0)
   const level = path.length;
   const btnLevelClass = `rv-tree-toggle-btn-level-${level > 4 ? 4 : level}`;
   
-  // Badge usando factory
   const badge = BadgeFactory.getBadge(level, name, storeKeys);
 
   if (type === 'array' && Array.isArray(value)) {
-    // Para arrays, renderiza header e botão de edição
     return (
       <div className="rv-tree-container">
         <div className="rv-tree-header">

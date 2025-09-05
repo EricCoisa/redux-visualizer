@@ -35,7 +35,6 @@ const ReduxVisualizer: React.FC<ReduxVisualizerProps> = ({ isOpen, onClose, over
   const [dragging, setDragging] = useState(false);
   const dragOffset = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 
-  // Drag handlers
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     setDragging(true);
     dragOffset.current = {
@@ -45,9 +44,6 @@ const ReduxVisualizer: React.FC<ReduxVisualizerProps> = ({ isOpen, onClose, over
     document.body.style.userSelect = "none";
   };
 
-
-  // Atualiza posição se a tela for redimensionada
-  // Salva posição/tamanho no localStorage se savePosition
   React.useEffect(() => {
     if (!savePosition) return;
     localStorage.setItem('rv-visualizer-pos', JSON.stringify({ position, size }));
