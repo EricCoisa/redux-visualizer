@@ -32,8 +32,6 @@ Install via npm or yarn:
 npm install redux-visualizer
 # or
 yarn add redux-visualizer
-# or  
-pnpm add redux-visualizer
 ```
 
 ---
@@ -152,14 +150,6 @@ npm install react react-dom redux react-redux @reduxjs/toolkit
 # Development
 npm run dev
 
-# Production build
-npm run build
-
-# Preview build
-npm run preview
-
-# Type checking
-npm run type-check
 ```
 
 ### Build Output
