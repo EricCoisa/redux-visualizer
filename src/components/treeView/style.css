@@ -159,6 +159,37 @@
 	font-size: 13px;
 }
 
+/* Edit Button Styles - Unified */
+.rv-edit-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  min-height: 20px;
+}
+
+.rv-edit-btn:hover {
+  background: rgba(0, 123, 255, 0.1);
+  transform: scale(1.1);
+}
+
+.rv-edit-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.rv-edit-btn:disabled:hover {
+  background: transparent;
+  transform: none;
+}
+
 .rv-item-tree-type {
 	margin-right: 8px;
 	color: #999;
@@ -167,6 +198,7 @@
 	font-weight: 500;
 }
 
+/* Legacy compatibility - Enhanced */
 .rv-item-tree-edit-btn {
 	margin-left: auto;
 	border: none;

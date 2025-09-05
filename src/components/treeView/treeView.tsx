@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ItemTree from './itemTree';
 import TreeWrapper from './TreeWrapper';
 import EditValueModal from './editValueModal';
+import EditButton from '../common/EditButton';
 import { useSelector, useDispatch } from 'react-redux';
 import { setEntireState } from '../../store/setEntireState';
 import './style.css';
@@ -45,7 +46,7 @@ const TreeView: React.FC<TreeViewProps> = ({ store }) => {
     );
   }
 
-  const handleEditRequest = (value: unknown, path: (string|number)[]) => {
+  const handleEditRequest = (value: unknown, path: (string | number)[]) => {
     setEditValue(value);
     setEditPath(path);
     setIsModalOpen(true);
@@ -69,20 +70,18 @@ const TreeView: React.FC<TreeViewProps> = ({ store }) => {
     <div className="rv-tree-view">
       <div className="rv-state-header">
         <span className="rv-badge rv-badge-root">Root</span>
-        <button
-          className="rv-state-edit-btn"
+        <EditButton
+          onEdit={() => handleEditRequest(localState, [])}
+          variant="root"
           title="Editar estado"
-          onClick={() => handleEditRequest(localState, [])}
-        >
-          <span role="img" aria-label="editar">✏️</span>
-        </button>
+          isModalOpen={isModalOpen}
+        />
       </div>
       <TreeWrapper
         value={reduxState}
         path={[]}
         renderLeaf={({ value, path, name, type, expanded: isExpanded, onToggle }) => {
           const canExpand = type === 'array' || type === 'object';
-          console.log('TreeView renderLeaf - isModalOpen:', isModalOpen); // Log para verificar propagação
           return (
             <ItemTree
               name={String(name)}

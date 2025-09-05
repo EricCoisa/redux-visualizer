@@ -7,11 +7,9 @@ interface EditValueModalProps {
   onSave: (value: any) => void;
   onClose: () => void;
   storeKeys: (string | number)[]; // Adicionado storeKeys aqui
-  path: (string | number)[] | null; // Adicionado path aqui
-  isModalOpen?: boolean; // Adicionado isModalOpen
 }
 
-const EditValueModal: React.FC<EditValueModalProps> = ({ isOpen, initialValue, onSave, onClose, storeKeys, path, isModalOpen }) => {
+const EditValueModal: React.FC<EditValueModalProps> = ({ isOpen, initialValue, onSave, onClose, storeKeys }) => {
   const [value, setValue] = useState<any>(initialValue);
 
   // Sincroniza o valor inicial sempre que o modal for aberto ou o valor mudar
@@ -24,15 +22,21 @@ const EditValueModal: React.FC<EditValueModalProps> = ({ isOpen, initialValue, o
   if (!isOpen) return null;
 
   // Função para atualizar valor recursivamente
-  const updateValueAtPath = (newVal: any, path: (string|number)[]) => {
-    if (path.length === 0) {
+  const updateValueAtPath = (newVal: any, updatePath: (string|number)[]) => {
+    // Debug - vamos ver o que está sendo passado
+    console.log('updateValueAtPath:', { newVal, updatePath, currentValue: value });
+    
+    if (updatePath.length === 0) {
       setValue(newVal);
       return;
     }
-    const [head, ...rest] = path;
+    
+    const [head, ...rest] = updatePath;
     setValue((prev: any) => {
+      console.log('Updating prev:', prev, 'at path:', updatePath);
       const copy = Array.isArray(prev) ? [...prev] : { ...prev };
       copy[head] = rest.length === 0 ? newVal : updateValueAtPathHelper(copy[head], rest, newVal);
+      console.log('Result:', copy);
       return copy;
     });
   };
@@ -60,10 +64,12 @@ const EditValueModal: React.FC<EditValueModalProps> = ({ isOpen, initialValue, o
         <div className="rv-modal-body">
           <ValueEditor
             value={value}
-            path={path ?? []} // Inicializando path como array vazio
-            onChange={(newVal, path) => updateValueAtPath(newVal, path)}
+            path={[]} // Sempre começar do root dentro do modal
+            onChange={(newVal, updatePath) => {
+              console.log('ValueEditor onChange:', { newVal, updatePath });
+              updateValueAtPath(newVal, updatePath);
+            }}
             storeKeys={storeKeys?.map(String)} // Convertendo storeKeys para string[]
-            isModalOpen={isModalOpen} // Passando isModalOpen para o ValueEditor
           />
         </div>
       </div>

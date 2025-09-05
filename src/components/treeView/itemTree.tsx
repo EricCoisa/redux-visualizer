@@ -1,4 +1,5 @@
 import React from 'react';
+import EditButton from '../common/EditButton';
 import './style.css';
 
 export interface ItemTreeProps {
@@ -27,9 +28,13 @@ const ItemTree: React.FC<ItemTreeProps> = ({ name, value, type, expanded, onTogg
         {!onToggle && (
           <span className="rv-item-tree-value" style={{ marginRight: 8 }}>{JSON.stringify(value)}</span>
         )}
-        {!isModalOpen && (
-          <button className="rv-item-tree-edit-btn" style={{ marginLeft: 'auto' }} onClick={onEdit} title={`Editar ${type}`}>✏️</button>
-        )}
+        <EditButton
+          onEdit={onEdit}
+          variant="tree"
+          title={`Editar ${type}`}
+          style={{ marginLeft: 'auto' }}
+          isModalOpen={isModalOpen}
+        />
       </div>
     </div>
   );

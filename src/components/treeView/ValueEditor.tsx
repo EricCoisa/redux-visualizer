@@ -7,10 +7,9 @@ interface ValueEditorProps {
   path?: (string|number)[] ;
   onChange: (newValue: any, path: (string|number)[]) => void;
   storeKeys?: string[]; // Adicionando storeKeys
-  isModalOpen?: boolean; // Adicionando isModalOpen
 }
 
-const ValueEditor: React.FC<ValueEditorProps> = ({ value, path = [], onChange, storeKeys, isModalOpen }) => {
+const ValueEditor: React.FC<ValueEditorProps> = ({ value, path = [], onChange, storeKeys }) => {
   // Função para renderizar folha editável
   const renderLeaf = ({ value, path, name, type }: any) => {
     // Detecta cor hex ou rgb
@@ -114,7 +113,7 @@ const ValueEditor: React.FC<ValueEditorProps> = ({ value, path = [], onChange, s
       editable={true}
       onEdit={(_, __) => {}}
       storeKeys={storeKeys} // Passando storeKeys para TreeWrapper
-      isModalOpen={isModalOpen} // Passando isModalOpen para TreeWrapper
+      isModalOpen={true} // Sempre true no ValueEditor para esconder botões de edição aninhados
       name={path[path.length - 1]} // Passando o nome do nó atual
       initializeExpanded={true}
     />
