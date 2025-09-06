@@ -13,7 +13,9 @@
 
 ---
 
-## 🎥 ![Demo](./demo.gif)
+## 🎥 Demo
+
+![Redux-Visualizer Demo](./demo.gif)
 
 ---
 

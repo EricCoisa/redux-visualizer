@@ -13,6 +13,12 @@
 
 ---
 
+## 🎥 Demo
+
+![Redux-Visualizer Demo](./demo.gif)
+
+---
+
 ## ✨ Recursos Principais
 
 - ✨ **Visualização em Árvore**: Estados exibidos como estrutura hierárquica expansível
