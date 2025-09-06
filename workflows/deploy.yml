@@ -1,0 +1,46 @@
+
+name: Deploy Redux-Visualizer
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.17.0
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Clean app-build
+        run: rm -rf app-build
+      - name: Build project
+        run: npm run build:app
+
+      - name: Upload app-build folder
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./app-build
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

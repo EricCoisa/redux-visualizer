@@ -13,9 +13,9 @@
     "LICENSE"
   ],
   "scripts": {
-    "dev": "vite",
     "build": "vite build && tsc --project tsconfig.types.json",
-    "lint": "eslint .",
+    "build:app": "vite build --config vite.app.config.ts --outDir app-build",
+    "dev": "vite",
     "preview": "vite preview"
   },
    "peerDependencies": {
