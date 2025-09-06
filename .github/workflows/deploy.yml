@@ -1,4 +1,3 @@
-
 name: Deploy Redux-Visualizer
 
 on:
@@ -24,11 +23,15 @@ jobs:
           node-version: 22.17.0
           cache: npm
 
+      - name: Remove node_modules and package-lock.json
+        run: rm -rf node_modules package-lock.json
+
       - name: Install dependencies
         run: npm install
 
       - name: Clean app-build
         run: rm -rf app-build
+
       - name: Build project
         run: npm run build:app
 
