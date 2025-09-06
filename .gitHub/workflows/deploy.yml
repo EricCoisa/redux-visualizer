@@ -1,5 +1,5 @@
 
-name: Deploy Redux-Visualizer
+name: Deploy Redux Visualizer
 
 on:
   push:
