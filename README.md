@@ -15,7 +15,7 @@
 
 ## 🎥 Demo
 
-![Redux-Visualizer Demo](./demo.gif)
+[Redux-Visualizer Demo](https://redux.ericvitor.com.br/)
 
 ---
 
