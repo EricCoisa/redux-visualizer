@@ -46,6 +46,21 @@ yarn add redux-visualizer
 
 ### Configuração Simples
 
+> **Importante:** Para que as edições do estado funcionem pelo visualizador, adicione a seguinte lógica ao seu root reducer:
+
+```typescript
+import { VisualizerReducer } from 'redux-visualizer';
+import { combineReducers } from 'redux';
+
+const appReducer = combineReducers({
+  // ...seus reducers
+});
+
+const rootReducer = VisualizerReducer(appReducer);
+```
+
+Assim, o Redux Visualizer poderá sobrescrever o estado ao usar o recurso de edição.
+
 ```tsx
 import React, { useState } from 'react';
 import { ReduxVisualizer } from 'redux-visualizer';

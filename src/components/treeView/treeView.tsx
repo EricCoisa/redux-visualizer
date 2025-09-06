@@ -4,8 +4,10 @@ import TreeWrapper from './TreeWrapper';
 import EditValueModal from './editValueModal';
 import EditButton from '../common/EditButton';
 import { useSelector, useDispatch } from 'react-redux';
-import { setEntireState } from '../../store/setEntireState';
+
 import './style.css';
+import { setEntireState } from '../reduxVisualizer/reduxVisualizerReducer';
+
 function updateValueAtPath(obj: any, path: (string|number)[], newValue: any): any {
   if (!path || path.length === 0) return newValue;
   const [head, ...rest] = path;
@@ -63,8 +65,6 @@ const TreeView: React.FC<TreeViewProps> = ({ store }) => {
     setIsModalOpen(false);
     setEditPath(null);
   };
-
-  console.log('TreeView - isModalOpen:', isModalOpen);
 
   return (
     <div className="rv-tree-view">

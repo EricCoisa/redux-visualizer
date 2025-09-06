@@ -5,13 +5,11 @@ import usersReducer from './store/usersSlice';
 import citiesReducer from './store/citiesSlice';
 import settingsReducer from './store/settingsSlice';
 import scoreReducer from './store/scoreSlice';
-import { setEntireState } from './store/setEntireState';
+
 import testNestedReducer from './store/testNestedSlice';
+import { VisualizerReducer } from './components/reduxVisualizer';
 
 const rootReducer = (state: any, action: any) => {
-  if (setEntireState.match(action)) {
-    return action.payload;
-  }
   return {
     counter: counterReducer(state?.counter, action),
     users: usersReducer(state?.users, action),
@@ -23,7 +21,7 @@ const rootReducer = (state: any, action: any) => {
 };
 
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: VisualizerReducer(rootReducer),
 });
 
 export default store;
