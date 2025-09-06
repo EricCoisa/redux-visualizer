@@ -13,6 +13,10 @@
 
 ---
 
+## 🎥 ![Demo](./demo.gif)
+
+---
+
 ## ✨ Key Features
 
 - ✨ **Tree Visualization**: States displayed as expandable hierarchical structure
